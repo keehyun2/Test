@@ -18,17 +18,16 @@ repositories {
 
 sourceSets {
 	main {
-	    resources {
-	        srcDir 'src/main/resources'
-	    }
+		resources {
+			srcDir 'src/main/resources'
+		}
 	}
-	
 }
 
 mainClassName = "com.khphub.Main"
 
 dependencies {
-	//compile('org.seleniumhq.selenium:htmlunit-driver:2.33.0')
+	compile('org.seleniumhq.selenium:htmlunit-driver:2.33.0')
 	compile('org.seleniumhq.selenium:selenium-java:3.14.0')
 }
 

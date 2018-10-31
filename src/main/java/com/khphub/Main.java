@@ -1,5 +1,6 @@
 package com.khphub;
 
+import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,11 +12,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 
 public class Main {
 
@@ -38,10 +40,9 @@ public class Main {
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		date = new Date();
 
-		System.setProperty("webdriver.chrome.driver",
-				"C:\\dev\\workspace\\Test\\src\\main\\resources\\chromedriver.exe");
-
-		driver = new ChromeDriver();
+//		System.setProperty("webdriver.chrome.driver", "C:\\dev\\workspace\\Test\\src\\main\\resources\\chromedriver.exe");
+//		driver = new ChromeDriver();
+		driver = new HtmlUnitDriver(BrowserVersion.CHROME);
 
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
@@ -51,7 +52,14 @@ public class Main {
 		e_driver.register(eventListener);
 
 		e_driver.manage().window().maximize(); // 최대화
-		e_driver.get("https://shopping.naver.com/home/p/index.nhn");
+		
+		String searchKeyword = URLEncoder.encode("진공포장기", "UTF-8");
+		StringBuilder sb = new StringBuilder();
+		sb.append("https://search.shopping.naver.com/search/all.nhn");
+		sb.append("?origQuery=%s&pagingIndex=1&pagingSize=40&viewType=list&sort=price_asc&frm=NVSHATC&sps=N&query=%s");
+		String url = String.format(sb.toString(), searchKeyword, searchKeyword);
+		
+		e_driver.get(url);
 		
 		synchronized (e_driver) {
 			try {
@@ -61,23 +69,29 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-
-		parentWindowHandler = e_driver.getWindowHandle(); // Store your parent window
-
-		WebElement element = e_driver.findElement(By.name("query"));
 		
-		element.sendKeys("진공포장기");
-		element.sendKeys(Keys.RETURN);
+		parentWindowHandler = e_driver.getWindowHandle(); // Store your parent window
+		
+		WebElement goods_list = e_driver.findElement(By.className("goods_list"));
+		
+		System.out.println(goods_list.getText());
+		
+//		.goods_list
+		
+//		WebElement element = e_driver.findElement(By.name("query"));
+		
+//		element.sendKeys("진공포장기");
+//		element.sendKeys(Keys.RETURN);
 //		click(By.cssSelector(".co_srh_btn"));
 		
-		click(By.id("_sort_price_asc"));// 낮은가격순
+//		click(By.id("_sort_price_asc"));// 낮은가격순
 		
-		click(By.cssSelector(".btn_align")); // 적용기준
-		 
-		// 네이버 추천 가장 낮은 가격
-		System.out.println(e_driver.findElement(By.cssSelector(".info_align_low")).getText());
+//		click(By.cssSelector(".btn_align")); // 적용기준
+		
+//		System.out.println(e_driver.findElement(By.cssSelector(".info_align_low")).getText()); // 네이버 추천 가장 낮은 가격
+		
 	}
-
+	
 	/**
 	 * ajax load 할때 blockUI 가 클릭 할 부분을 막아서 wait 처리함. css fade in 효과 때문 인것 같음... 여튼
 	 * 클릭할때 에러 발생함...
@@ -90,6 +104,7 @@ public class Main {
 			e_driver.findElement(by).click();
 		} catch (Exception e) {
 			 e.printStackTrace();
+			 System.out.println(e_driver.getPageSource());
 			synchronized (e_driver) {
 				e_driver.wait(1000);
 			}

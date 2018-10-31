@@ -11,7 +11,7 @@ public class WebEventListener extends AbstractWebDriverEventListener {
 	}
 
 	public void afterNavigateTo(String url, WebDriver driver) {
-//		System.out.println("Navigated to:'" + url + "'");
+		System.out.println("Navigated to:'" + url + "'");
 		System.out.println("Page title: " + driver.getTitle());
 	}
 
@@ -21,6 +21,7 @@ public class WebEventListener extends AbstractWebDriverEventListener {
 
 	public void afterClickOn(WebElement element, WebDriver driver) {
 		System.out.println("Clicked on: " + element.toString());
+		System.out.println("Page title: " + driver.getTitle());
 	}
 
 	public void onException(Throwable error, WebDriver driver) {
