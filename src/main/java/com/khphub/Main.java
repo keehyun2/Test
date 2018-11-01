@@ -3,14 +3,16 @@ package com.khphub;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.dizitart.no2.Document;
+import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.NitriteCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,8 +28,6 @@ public class Main {
 	
 	static WebEventListener eventListener;
 
-	static String parentWindowHandler;
-	static String subWindowHandler;
 	static DateFormat dateFormat;
 	static Date date;
 
@@ -43,6 +43,7 @@ public class Main {
 //		System.setProperty("webdriver.chrome.driver", "C:\\dev\\workspace\\Test\\src\\main\\resources\\chromedriver.exe");
 //		driver = new ChromeDriver();
 		driver = new HtmlUnitDriver(BrowserVersion.CHROME);
+		((HtmlUnitDriver)driver).setJavascriptEnabled(true); 
 
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
@@ -61,96 +62,30 @@ public class Main {
 		
 		e_driver.get(url);
 		
-		synchronized (e_driver) {
-			try {
-				System.out.println("브라우저가 열리고 홈페이지가 열린 후 3초 대기");
-				e_driver.wait(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		List<WebElement> list_goods = e_driver.findElements(By.className("_itemSection"));
+		System.out.println("상품 수 : " + list_goods.size());
+		
+		Nitrite db = Nitrite.builder().compressed().filePath("/tmp/test.db").openOrCreate("test", "1234");
+
+		// Create a Nitrite Collection
+		NitriteCollection collection = db.getCollection("test");
+
+		// create a document to populate data
+//		Document doc = Document.createDocument("firstName", "John").put("lastName", "Doe").put("birthDay", new Date())
+//				.put("data", new byte[] { 1, 2, 3 }).put("fruits", new ArrayList<String>() {
+//					{
+//						add("apple");
+//						add("orange");
+//					}
+//				}).put("note", "a quick brown fox jump over the lazy dog");
+		
+		for (WebElement webElement : list_goods) {
+			System.out.println(webElement.findElement(By.className("_productLazyImg")).getAttribute("src"));
+			System.out.println(webElement.findElement(By.className("tit")).getText());
 		}
 		
-		parentWindowHandler = e_driver.getWindowHandle(); // Store your parent window
-		
-		WebElement goods_list = e_driver.findElement(By.className("goods_list"));
-		
-		System.out.println(goods_list.getText());
-		
-//		.goods_list
-		
-//		WebElement element = e_driver.findElement(By.name("query"));
-		
-//		element.sendKeys("진공포장기");
-//		element.sendKeys(Keys.RETURN);
-//		click(By.cssSelector(".co_srh_btn"));
-		
-//		click(By.id("_sort_price_asc"));// 낮은가격순
-		
-//		click(By.cssSelector(".btn_align")); // 적용기준
-		
-//		System.out.println(e_driver.findElement(By.cssSelector(".info_align_low")).getText()); // 네이버 추천 가장 낮은 가격
+		// 20% 이상 차이나는 이미지들만 검색
 		
 	}
 	
-	/**
-	 * ajax load 할때 blockUI 가 클릭 할 부분을 막아서 wait 처리함. css fade in 효과 때문 인것 같음... 여튼
-	 * 클릭할때 에러 발생함...
-	 * 
-	 * @param by
-	 * @throws InterruptedException
-	 */
-	public static void click(By by) throws InterruptedException {
-		try {
-			e_driver.findElement(by).click();
-		} catch (Exception e) {
-			 e.printStackTrace();
-			 System.out.println(e_driver.getPageSource());
-			synchronized (e_driver) {
-				e_driver.wait(1000);
-			}
-			click(by);
-		}
-	}
-
-	public static void click(WebElement we) throws InterruptedException {
-		try {
-			we.click();
-		} catch (Exception e) {
-			// e.printStackTrace();
-			synchronized (e_driver) {
-				e_driver.wait(1000);
-			}
-			click(we);
-		}
-	}
-
-	/**
-	 * 새로 생긴 팝업을 찾는다. 팝업이 여러개 떠있으면 에러 생길수 있음.
-	 * 
-	 * @throws InterruptedException
-	 */
-	public static void detectPopup() throws InterruptedException {
-		Set<String> handles = e_driver.getWindowHandles(); // get all window handles
-		Iterator<String> iterator = handles.iterator();
-		while (iterator.hasNext()) {
-			subWindowHandler = iterator.next();
-		}
-	}
-
-	/**
-	 * date 를 오늘 날짜로 select 한다.
-	 * 
-	 * @throws InterruptedException
-	 */
-	public static void selectDate() throws InterruptedException {
-		WebElement dateWidget = e_driver.findElement(By.id("ui-datepicker-div"));
-		List<WebElement> columns = dateWidget.findElements(By.tagName("td"));
-		for (WebElement cell : columns) {
-			if (cell.getText().equals(new SimpleDateFormat("dd").format(date))) {
-				click(cell);
-				break;
-			}
-		}
-	}
-
 }

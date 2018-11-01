@@ -28,6 +28,7 @@ mainClassName = "com.khphub.Main"
 
 dependencies {
 	compile('org.seleniumhq.selenium:htmlunit-driver:2.33.0')
-	compile('org.seleniumhq.selenium:selenium-java:3.14.0')
+	compile group: 'org.dizitart', name: 'nitrite', version: '3.1.0'
+//	compile('org.seleniumhq.selenium:selenium-java:3.14.0') // 크롬 드라이버
 }
 
