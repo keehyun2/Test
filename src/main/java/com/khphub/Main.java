@@ -65,7 +65,7 @@ public class Main {
 		List<WebElement> list_goods = e_driver.findElements(By.className("_itemSection"));
 		System.out.println("상품 수 : " + list_goods.size());
 		
-		Nitrite db = Nitrite.builder().compressed().filePath("/tmp/test.db").openOrCreate("test", "1234");
+		Nitrite db = Nitrite.builder().compressed().filePath("/Temp/test.db").openOrCreate("test", "1234");
 
 		// Create a Nitrite Collection
 		NitriteCollection collection = db.getCollection("test");
@@ -87,5 +87,4 @@ public class Main {
 		// 20% 이상 차이나는 이미지들만 검색
 		
 	}
-	
 }
