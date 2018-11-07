@@ -13,9 +13,20 @@ apply plugin: 'application'
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
-	//jcenter()
-	//mavenLocal()
+	jcenter()
+	mavenLocal()
 	mavenCentral()
+}
+
+mainClassName = "com.khphub.Main"
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.khphub.Main'
+    }
+    from {
+    	configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }
 
 sourceSets {
@@ -26,11 +37,9 @@ sourceSets {
 	}
 }
 
-mainClassName = "com.khphub.Main"
-
 dependencies {
 	compile('org.seleniumhq.selenium:htmlunit-driver:2.33.0')
 	compile 'org.mongodb:mongo-java-driver:3.4.1'
-//	compile('org.seleniumhq.selenium:selenium-java:3.14.0') // 크롬 드라이버
+	compile('org.seleniumhq.selenium:selenium-java:3.14.0') // 크롬 드라이버
 }
 

@@ -3,6 +3,7 @@ package com.khphub;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +40,11 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		log.setLevel(Level.OFF);
+		
+		if (args == null || args.length < 1) {
+			System.out.println("검색키워드가 입력되지 않았습니다.");
+			return;
+		}
 
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		date = new Date();
@@ -68,23 +74,26 @@ public class Main {
 		List<WebElement> list_goods = e_driver.findElements(By.className("_itemSection"));
 		System.out.println("상품 수 : " + list_goods.size());
 		
-//		MongoClient mongoClient = new MongoClient("ds147723.mlab.com", 47723);
-		
 		MongoClientURI uri = new MongoClientURI("mongodb://product1:product1@ds147723.mlab.com:47723/product?authSource=product");
 		MongoClient mongoClient = new MongoClient(uri);
-		logger.info("MongoClient connected");
-
 		MongoDatabase db = mongoClient.getDatabase("product");
-		logger.info("Get 'namu' MongoDatabase");
+		MongoCollection<Document> collection = db.getCollection("naver"); 
 		
-		MongoCollection<Document> documentMongoCollection = db.getCollection("naver");
-		logger.info("Get 'namudb' Document");
-
-		
+		List<Document> docList = new ArrayList<Document>();
 		for (WebElement webElement : list_goods) {
-			System.out.println(webElement.findElement(By.className("_productLazyImg")).getAttribute("src"));
+			
+			Document doc = new Document();
+			doc.append("searchKeyword", searchKeyword);
+			doc.append("imgUrl", webElement.findElement(By.className("_productLazyImg")).getAttribute("src"));
+			doc.append("tit", webElement.findElement(By.className("tit")).getText());
+			docList.add(doc);
+			
+			logger.info(webElement.findElement(By.className("_productLazyImg")).getAttribute("src"));
+			logger.info(webElement.findElement(By.className("tit")).getText());
 			System.out.println(webElement.findElement(By.className("tit")).getText());
 		}
+		collection.insertMany(docList);
+		System.out.println("입력완료");
 		
 		// 20% 이상 차이나는 이미지들만 검색
 		
