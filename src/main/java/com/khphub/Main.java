@@ -14,10 +14,10 @@ import org.bson.Document;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -49,9 +49,9 @@ public class Main {
 		dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		date = new Date();
 
-//		System.setProperty("webdriver.chrome.driver", "C:\\dev\\workspace\\Test\\src\\main\\resources\\chromedriver.exe");
-//		driver = new ChromeDriver();
-		driver = new HtmlUnitDriver(BrowserVersion.CHROME);
+		System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
+		driver = new ChromeDriver();
+//		driver = new HtmlUnitDriver(BrowserVersion.CHROME);
 		((HtmlUnitDriver)driver).setJavascriptEnabled(true); 
 
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
