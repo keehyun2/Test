@@ -18,7 +18,6 @@ repositories {
 	mavenCentral()
 }
 
-//mainClassName = "com.d20190617.MainBankWoo"
 mainClassName = "com.bank.HelloWorldServer"
 
 jar {
@@ -48,7 +47,6 @@ dependencies {
 	compile("io.github.bonigarcia:webdrivermanager:3.6.1")
 	compile group: 'io.undertow', name: 'undertow-core', version: '2.0.16.Final'
 	compile group: 'io.undertow', name: 'undertow-servlet', version: '2.0.16.Final'
-	//compile group: 'io.undertow', name: 'undertow-jsr', version: '2.0.16.Final'
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 	//compile project(":GrettyCrowl")
 }
