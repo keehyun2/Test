@@ -51,16 +51,16 @@ public class MainBankWoo {
 		WebDriverManager.getInstance(DriverManagerType.FIREFOX).forceCache().setup();
 		driver = new FirefoxDriver();
 
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		e_driver = new EventFiringWebDriver(driver); // 이벤트 등록
 
-		eventListener = new WebEventListener();
-		e_driver.register(eventListener);
+//		eventListener = new WebEventListener();
+//		e_driver.register(eventListener);
 
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("https://www.wooribank.com/");
+		sb.append("https://spib.wooribank.com/pib/Dream?withyou=CMLGN0001");
 		String url = String.format(sb.toString());
 
 		e_driver.get(url);
