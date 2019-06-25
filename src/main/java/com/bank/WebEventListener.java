@@ -11,8 +11,13 @@ public class WebEventListener extends AbstractWebDriverEventListener {
 	}
 
 	public void afterNavigateTo(String url, WebDriver driver) {
-		System.out.println("Navigated to:'" + url + "'");
-		System.out.println("Page title: " + driver.getTitle());
+		try {
+			System.out.println("Navigated to:'" + url + "'");
+			System.out.println("Page title: " + driver.getTitle());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void beforeClickOn(WebElement element, WebDriver driver) {
@@ -20,11 +25,21 @@ public class WebEventListener extends AbstractWebDriverEventListener {
 	}
 
 	public void afterClickOn(WebElement element, WebDriver driver) {
-		System.out.println("Clicked on: " + element.toString());
-		System.out.println("Page title: " + driver.getTitle());
+		try {
+			System.out.println("Clicked on: " + element.toString());
+			System.out.println("Page title: " + driver.getTitle());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	public void onException(Throwable error, WebDriver driver) {
-		System.out.println("Error occurred: " + error);
+		
+		try {
+			System.out.println("Error occurred: " + error);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }
