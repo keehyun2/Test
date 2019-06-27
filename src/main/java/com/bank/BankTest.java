@@ -77,7 +77,7 @@ public final class BankTest {
 //		e_driver.executeScript(script, args)
 		Set<Cookie> allCookies = e_driver.manage().getCookies();
 		ChromeOptions op = new ChromeOptions();
-		op.addArguments(Arrays.asList("headless", "window-size=1920x1080", "disable-gpu"));
+		op.addArguments(Arrays.asList("--headless", "window-size=1920x1080", "disable-gpu"));
 		ChromeDriver driver1 = new ChromeDriver();
 		EventFiringWebDriver e_driver1 = new EventFiringWebDriver(driver1); // 이벤트 등록
     	e_driver1.register(new WebEventListener());

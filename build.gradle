@@ -48,6 +48,7 @@ dependencies {
 	compile group: 'io.undertow', name: 'undertow-core', version: '2.0.16.Final'
 	compile group: 'io.undertow', name: 'undertow-servlet', version: '2.0.16.Final'
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+	compile 'org.mongodb:mongo-java-driver:3.4.1'
 	//compile project(":GrettyCrowl")
 }
 
