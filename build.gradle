@@ -49,6 +49,9 @@ dependencies {
 	compile group: 'io.undertow', name: 'undertow-servlet', version: '2.0.16.Final'
 	compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 	compile 'org.mongodb:mongo-java-driver:3.4.1'
+	implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.1.2'
 	//compile project(":GrettyCrowl")
 }
 
