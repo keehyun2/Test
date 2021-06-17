@@ -7,8 +7,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -24,31 +26,45 @@ public class Test00 {
     public static void main(String[] args) throws IOException, ParseException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         
-        Stock samsung = YahooFinance.get("005930" + ".KS", false);    // 삼성
-        Stock kospi = YahooFinance.get("^KS11", false);    // kospi
-        
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        Calendar fromDt = Calendar.getInstance();
-//        fromDt.setTime(format.parse("2018-01-01"));
-//        Calendar toDt = Calendar.getInstance();
+        Stock samsung = YahooFinance.get("005930.KS");    // 삼성
+//        Stock kospi = YahooFinance.get("^KS11", false);    // kospi
         
         LocalDate now = LocalDate.now();
         
-        List<HistoricalQuote> hist =getHistory(samsung, now.minusYears(10), now.minusYears(10).plusDays(2), Interval.DAILY);
+        samsung.getQuote().getPrice();
+//        
+        List<HistoricalQuote> hist = getHistory(samsung, now.minusDays(6), now.plusDays(1), Interval.DAILY);
         
-        HistoricalQuote quote = hist.get(0);
-        LocalDateTime date = convertDateTime(quote.getDate());
-        BigDecimal oldPrice = quote.getClose();
+//        hist.size();
+        for (HistoricalQuote historicalQuote : hist) {
+            System.out.println(historicalQuote);
+        }
         
-        System.out.println(date);
-        System.out.println(oldPrice);
-        System.out.println(samsung.getQuote().getPrice());
-        System.out.println(samsung.getStats().getMarketCap());
+//        
+//        HistoricalQuote quote = hist.get(0);
+//        LocalDateTime date = convertDateTime(quote.getDate());
+//        BigDecimal oldPrice = quote.getClose();
+//        
+//        System.out.println(date);
+//        System.out.println(oldPrice);
+//        System.out.println(samsung.getQuote().getPrice());
+//        System.out.println(samsung.getStats().getMarketCap());
 //        System.out.println(samsung.get);
         
         
         
-        System.out.println("stop :" + stopwatch);
+//        System.out.println("stop :" + stopwatch);
+        
+//        Stock asia = YahooFinance.get("020560.KS", false);    // kospi
+//        
+//        System.out.println(asia.getQuote().getLastTradeTime().getTime());
+        
+        
+//        Random randomGenerator = new Random();
+//        
+//        System.out.println(randomGenerator.nextInt(2000));
+//        
+//        System.out.println(LocalDateTime.parse("2021-06-11T00:00:00"));
         
     }
     
