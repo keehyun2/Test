@@ -12,3 +12,5 @@
 */bin
 .springBeans
 /logs
+*.iml
+.idea
